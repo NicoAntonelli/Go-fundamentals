@@ -5,15 +5,6 @@ import (
 	"net/http"
 )
 
-type WalletBalanceRequest struct {
-	Username string
-}
-
-type WalletBalanceResponse struct {
-	Status  int
-	Balance float32
-}
-
 type ErrorResponse struct {
 	Code    int
 	Message string

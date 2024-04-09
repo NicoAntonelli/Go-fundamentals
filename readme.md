@@ -31,7 +31,7 @@ You can also run a dummy test with `go test ./main`.
 
 ## Simple-API
 
-Demo of a simple api with a single get that simulates fetching info from virtual wallets, with:
+Demo of a simple api that simulates fetching info from virtual wallets and user creation, with:
 
 - Error logs
 - Auth middleware with token
@@ -39,10 +39,36 @@ Demo of a simple api with a single get that simulates fetching info from virtual
 
 ### Usage - Go Commands:
 
-First, you have to go to the Simple-API folder, with the command `cd Simple-API`. Then, you can run the mini-API with the command `go run main/main.go`. Then, you have to open _Postman_, _cURL_ or any tool to test apis.
+First, you have to go to the Simple-API folder, with the command `cd Simple-API`. Then, you can run the mini-API with the command `go run main/main.go`. Then, you have to open _Postman_, _cURL_ or any tool to test apis. By default, the server will be running on `localhost:8080`.
 
-By default, the server will be running on `localhost:8080`. The endpoint to be tested is `/balance`: it waits for a GET request, has a "username" parameter in the URL (string type) and also requires an Authorization header with a string that pretends to be the security token.
+The endpoints to be tested are:
+| Endpoint | Method | Description | Observation |
+| :- | :-: | :- | :- |
+| `/user` | GET | Provides a list of mocked users | - |
+| `/balance`|GET |Shows user's wallet balance | Uses Auth Middleware: so, it needs a `username` parameter in the URL (string type) and also requires an `Authorization` header with a "security token" string |
+| `/user` | POST | Creates a new user and their new security token | - |
 
-All accepted values for the request can be found in the mocked DB, in the file: `internals/tools/mockDB.go`
+> All accepted values for the balance request can be found in the mocked DB, in the file: `internals/tools/mockDB.go`
 
-> Request example: localhost:8080/balance?username=alex
+### Requests examples with cURL
+
+Get all users
+
+```
+curl -L localhost:8080/user
+```
+
+Get one user´s wallet balance
+
+```
+curl -L localhost:8080/balance?username=alex -H "Authorization: 123ABC"
+```
+
+Create a new user:
+
+```
+curl -L 'localhost:8080/user' -H 'Content-Type: application/json' --data-raw '{
+    "Username": "Nick",
+    "Mail": "nick@mail.com"
+}'
+```

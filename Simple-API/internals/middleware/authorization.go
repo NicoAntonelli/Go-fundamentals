@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 	"simple-api/api"
+	ent "simple-api/internals/entities"
 	"simple-api/internals/tools"
 
 	log "github.com/sirupsen/logrus"
@@ -32,7 +33,7 @@ func Authorization(next http.Handler) http.Handler {
 			return
 		}
 
-		var loginDetails *tools.LoginDetails = (*database).GetLoginDetails(username)
+		var loginDetails *ent.LoginDetails = (*database).GetLoginDetails(username)
 
 		if loginDetails == nil || (token != (*loginDetails).AuthToken) {
 			log.Error(UnauthorizedError)

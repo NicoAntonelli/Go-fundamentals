@@ -1,22 +1,17 @@
 package tools
 
-import log "github.com/sirupsen/logrus"
+import (
+	ent "simple-api/internals/entities"
 
-// Database collections
-type LoginDetails struct {
-	AuthToken string
-	Username  string
-}
-
-type WalletDetails struct {
-	Username string
-	Balance  float32
-}
+	log "github.com/sirupsen/logrus"
+)
 
 // Database interface
 type DatabaseInterface interface {
-	GetLoginDetails(username string) *LoginDetails
-	GetWalletDetails(username string) *WalletDetails
+	GetLoginDetails(username string) *ent.LoginDetails
+	GetWalletDetails(username string) *ent.WalletDetails
+	GetUsers() []ent.UserDetails
+	PostUser(user ent.UserDetails) []ent.UserDetails
 	SetupDatabase() error
 }
 

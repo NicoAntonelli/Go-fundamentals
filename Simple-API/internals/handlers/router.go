@@ -11,8 +11,13 @@ import (
 func Handler(router *mux.Router) {
 	// Global middlewares
 	router.Use(chiMiddleware.StripSlashes)
-	router.Use(middleware.Authorization)
 
-	// Account module
-	router.HandleFunc("/balance", GetWalletBalance).Methods("GET")
+	// User module
+	router.HandleFunc("/user", UserGet).Methods("GET")
+	router.HandleFunc("/user", UserPost).Methods("POST")
+
+	// Wallet balance module
+	routerBalance := router.PathPrefix("/balance").Subrouter()
+	routerBalance.Use(middleware.Authorization)
+	routerBalance.HandleFunc("", WalletBalanceGetOne).Methods("GET")
 }

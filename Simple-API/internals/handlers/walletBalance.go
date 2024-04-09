@@ -5,14 +5,26 @@ import (
 	"net/http"
 
 	"simple-api/api"
+	ent "simple-api/internals/entities"
 	"simple-api/internals/tools"
 
 	"github.com/gorilla/schema"
 	log "github.com/sirupsen/logrus"
 )
 
-func GetWalletBalance(w http.ResponseWriter, r *http.Request) {
-	var params = api.WalletBalanceRequest{}
+// Types
+type WalletBalanceGetRequest struct {
+	Username string
+}
+
+type WalletBalanceGetResponse struct {
+	Status  int
+	Balance float32
+}
+
+// GET
+func WalletBalanceGetOne(w http.ResponseWriter, r *http.Request) {
+	var params = WalletBalanceGetRequest{}
 	var decoder *schema.Decoder = schema.NewDecoder()
 	var err error
 
@@ -31,14 +43,14 @@ func GetWalletBalance(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var tokenDetails *tools.WalletDetails = (*database).GetWalletDetails(params.Username)
+	var tokenDetails *ent.WalletDetails = (*database).GetWalletDetails(params.Username)
 	if tokenDetails == nil {
 		log.Error(err) // This err is empty
 		api.InternalErrorHandler(w)
 		return
 	}
 
-	var response = api.WalletBalanceResponse{
+	var response = WalletBalanceGetResponse{
 		Balance: (*tokenDetails).Balance,
 		Status:  http.StatusOK,
 	}
