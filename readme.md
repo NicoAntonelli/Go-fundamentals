@@ -22,12 +22,13 @@ A unique package `main` that contains different files with fundamental Go concep
 - [10- Generics](Basics/main/10-generics.go)
 - [11- Files](Basics/main/11-files.go)
 - [12- Error Handling](Basics/main/12-errorHandling.go)
+- [Extra - Testing with TestTables](Basics/main/main_test.go)
 
 ### Usage - Go Commands:
 
 First, you have to go to the Basics folder, with the command `cd Basics`. Then, you can run the entire mini-project with the command `go run ./main`. You can also edit any file and create a new `main.exe` file with the command `go run build ./main`.
 
-You can also run a dummy test with `go test ./main`.
+You can also run some sample tests cases (that use test tables) with `go test ./main -v`.
 
 ## Simple-API
 
@@ -52,13 +53,13 @@ The endpoints to be tested are:
 
 ### Requests examples with cURL
 
-Get all users
+Get all users:
 
 ```
 curl -L localhost:8080/user
 ```
 
-Get one user´s wallet balance
+Get one user´s wallet balance:
 
 ```
 curl -L localhost:8080/balance?username=alex -H "Authorization: 123ABC"
